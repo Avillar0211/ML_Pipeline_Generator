@@ -14,7 +14,6 @@ class data_collector:
         for file in files:
             dfaux = pandas.read_csv(file)
             array.append(dfaux)
-        result = pandas.concat(array, ignore_index=True, sort=False)
-        with open('salidafusion.csv', 'w') as output_file:
-                output_file.write(result.to_csv())
+        res = pandas.concat(array, ignore_index=True, sort=False)
+        return pandas.DataFrame(res)
     
