@@ -3,16 +3,13 @@ import pandas
 
 class data_collector:
     def __init__(self):
-        aux = single_data_collector()
-
-    def addSingleDataCollector(self, filename, format):
-        aux = single_data_collector()
-        return aux.read(filename,format)
+        return
     
     def mergeDataSources(self, files):
         array = []
+        c = single_data_collector()
         for file in files:
-            dfaux = pandas.read_csv(file)
+            dfaux = c.frame(file)
             array.append(dfaux)
         res = pandas.concat(array, ignore_index=True, sort=False)
         return pandas.DataFrame(res)
