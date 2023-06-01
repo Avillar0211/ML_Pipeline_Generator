@@ -1,5 +1,6 @@
 from Algoritmos.BNAlgorithm_Trainer import BayesianNetwork
-from Algoritmos.LRAlgorithm_Trainer import LinearRegresion
+from Algoritmos.LinearRegression import LinearRegresion
+from Algoritmos.LinearRegresionLibrary import LinearRegresionLibrary
 
 class Model_Trainer():
     def __init__(self, Alorithm, properties):
