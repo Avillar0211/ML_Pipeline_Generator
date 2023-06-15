@@ -3,6 +3,7 @@ import pandas
 import numpy
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
 
 datos = []
 aux = pandas.read_csv("contaminacion_cortado1.csv")
@@ -41,6 +42,14 @@ dataset['DIA']=pandas.to_datetime(dataset['DATA'],format='%d/%m/%Y').dt.day
 dataset['MES']=pandas.to_datetime(dataset['DATA'],format='%d/%m/%Y').dt.month
 dataset['ANY']=pandas.to_datetime(dataset['DATA'],format='%d/%m/%Y').dt.year
 dataset.drop(['DATA'],axis=1,inplace=True)
+label_encoder = LabelEncoder()
+columnas_string= dataset.select_dtypes(exclude=[numpy.number]).columns
+for i in columnas_string:
+    dataset[i] = label_encoder.fit_transform(dataset[i])
+
+print("Label Encoded Data: ")
+
+
 print(dataset.head())
 
 features = numpy.array(dataset)
@@ -50,11 +59,12 @@ train_x, test_x, train_y, test_y = train_test_split(features, labels, test_size 
 rf = RandomForestRegressor(10, random_state=0)
 rf.fit(train_x, train_y)
 
+test_y.reshape(1, -1)
+print(rf.score(test_y, test_x))
+
 pred = rf.predict(test_x)
 assessment = accuracy_score(test_y, pred)
 
-print("ok") 
-
-
+print("ok")
 
 
