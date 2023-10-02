@@ -1,11 +1,10 @@
 import pandas
 import os.path
-from Formatos.JSON_DataCollector import JSONDataCollector
-from Formatos.HTML_DataCollector import HTMLDataCollector
-from Formatos.CSV_DataCollector import CSVDataCollector
-from Formatos.XLSX_DataCollector import XLSXDataCollector
-from Formatos.XML_DataCollector import XMLDataCollector
-import importlib
+from Data_Collection.Formatos.JSON_DataCollector import JSONDataCollector
+from Data_Collection.Formatos.HTML_DataCollector import HTMLDataCollector
+from Data_Collection.Formatos.CSV_DataCollector import CSVDataCollector
+from Data_Collection.Formatos.XLSX_DataCollector import XLSXDataCollector
+from Data_Collection.Formatos.XML_DataCollector import XMLDataCollector
 
 class DataCollector:
     def __init__(self, files):
@@ -17,8 +16,15 @@ class DataCollector:
             formatClassInstance = globals()[className]
             self.singleDataCollector.append((file, formatClassInstance))
         return
-           
 
+    def loadDataSources(self, files):
+        for file in files:
+            extension = os.path.splitext(file)[1]
+            format = extension.upper()
+            className = format.replace('.','')+'DataCollector'
+            formatClassInstance = globals()[className]
+            self.singleDataCollector.append((file, formatClassInstance))
+        return
   
     def readDataSources(self):
         array = []
@@ -28,4 +34,3 @@ class DataCollector:
 
         res = pandas.concat(array, ignore_index=True, sort=False)
         return pandas.DataFrame(res)
-        return None
