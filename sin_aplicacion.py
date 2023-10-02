@@ -8,7 +8,6 @@ from sklearn.metrics import average_precision_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import max_error
 from sklearn.metrics import mean_absolute_error
-
 from sklearn.preprocessing import LabelEncoder
 
 datos = []
@@ -26,25 +25,25 @@ res = pandas.concat(datos, ignore_index=True, sort=False)
 dataset = pandas.DataFrame(res)
 
 
-dataset = dataset.drop_duplicates()
-aux = dataset.select_dtypes(include=numpy.number).columns.tolist()
+dataset = dataset.drop_duplicates() #eliminamos duplicados
+aux = dataset.select_dtypes(include=numpy.number).columns.tolist() #guardamos las columnas que son numeros
 for x in aux:
-    mitjana = dataset[x].mean()
-    desviacion = dataset[x].std()
-    min = mitjana - desviacion*5
-    max = mitjana + desviacion*5
-    dataset.loc[dataset[x] < min, x] = mitjana
-    dataset.loc[dataset[x] > max, x] = mitjana
-aux = dataset.select_dtypes(include=numpy.number).columns.tolist()
+    mitjana = dataset[x].mean() #miramos el valor medio de x en el dataset
+    desviacion = dataset[x].std() #miramos la desviacion media de x en el dataset
+    min = mitjana - desviacion*5 #calculamos el minimo del intervalo restando la desviacion a la media
+    max = mitjana + desviacion*5 #calculamos el maximo del intervalo sumando la desviacion a la media
+    dataset.loc[dataset[x] < min, x] = mitjana #por cada valor menor al minimo ponemos la media
+    dataset.loc[dataset[x] > max, x] = mitjana #por cada valor mayor al maximo sumamos la media
+aux = dataset.select_dtypes(include=numpy.number).columns.tolist() #guardamos las columnas que son números
 for x in aux:
-    mitjana = dataset[x].mean()
-    dataset[x].fillna(mitjana, inplace=True) 
-label_encoder = LabelEncoder()
-aux = dataset.select_dtypes(exclude=numpy.number).columns.tolist()
-for x in aux:
-    if dataset[x].nunique() < 5:
-        label_encoder = LabelEncoder()
-        dataset[x] = label_encoder.fit_transform(dataset[x])
+    mitjana = dataset[x].mean() #calculamos el valor medio de x
+    dataset[x].fillna(mitjana, inplace=True) #rellenamos los valores vacios con el valor medio
+label_encoder = LabelEncoder() #creamos un objeto labelencoder
+aux = dataset.select_dtypes(exclude=numpy.number).columns.tolist() #miramos las columnas con vlaor string
+for x in aux: 
+    if dataset[x].nunique() < 5: #miramos cuantas columnas tienen menos de 5 valores diferentes
+        label_encoder = LabelEncoder() #creamos un objeto Label encoder
+        dataset[x] = label_encoder.fit_transform(dataset[x]) #trnsformamos la columna string en un valor discretizado
 
 
 dataset= dataset.sort_values(by = ["CODI COMARCA", "DATA"])
@@ -59,16 +58,17 @@ dataset.drop(['DATA'],axis=1,inplace=True)
 dataset.drop('Unnamed: 0', inplace = True, axis = 1)
 dataset.round()
 
+
 aux = dataset.select_dtypes(include=[numpy.number])
 features = numpy.array(aux.iloc[:, :-1])
 labels = numpy.array(aux.iloc[:, -1])
 train_x, test_x, train_y, test_y = train_test_split(features, labels, test_size = 0.2)
 
+
 rf = RandomForestRegressor(n_estimators=100, random_state=0)
-
 rf.fit(train_x, train_y)
-
 pred = rf.predict(test_x)
+
 
 accuracy_score = accuracy_score(test_y, pred)
 balanced_accuracy_score = balanced_accuracy_score(test_y, pred)
@@ -83,7 +83,5 @@ print(average_precision_score)
 print(precision_score)
 print(max_error)
 print(mean_absolute_error)
-
-print("ok")
 
 
