@@ -1,4 +1,4 @@
-from Algoritmos.Algorithm_Trainer import Algorithm_Trainer
+from Model_Training.Algoritmos.Algorithm_Trainer import Algorithm_Trainer
 
 class BayesianNetworkAL(Algorithm_Trainer):
 

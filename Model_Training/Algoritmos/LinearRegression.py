@@ -1,11 +1,11 @@
-from Algoritmos.Algorithm_Trainer import Algorithm_Trainer
+from Model_Training.Algoritmos.Algorithm_Trainer import Algorithm_Trainer
 import pandas as pd 
 from sklearn.linear_model import LinearRegression
 import numpy 
 import matplotlib.pyplot as plt
 from scipy import stats
 
-class LinearRegresionAL(Algorithm_Trainer):
+class LinearRegressionAL(Algorithm_Trainer):
 
     def __init__(self, properties):
         super().__init__()

@@ -1,6 +1,7 @@
-from Model_Training.Algoritmos.Bayesian_Netework import BayesianNetworkAL
-from Model_training.Algoritmos.LinearRegression import LinearRegressionAL
+from Model_Training.Algoritmos.Bayesian_Network import BayesianNetworkAL
+from Model_Training.Algoritmos.LinearRegression import LinearRegressionAL
 from Model_Training.Algoritmos.RandomForestRegression import RandomForestRegressorAL
+from Model_Training.Algoritmos.LogisticRegression import LogisticRegressionAL
 
 class ModelTrainer():
     def __init__(self, Algorithm, properties):
