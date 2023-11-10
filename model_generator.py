@@ -1,7 +1,7 @@
 from Data_Collection.Data_Collector import DataCollector
 from Data_Processing.Data_Processor import DataProcessor
 from Data_Transformation.Data_Transform import DataTransform
-from Feature_engineering.Data_Split import DataSplit
+from Feature_Engineering.Feature_engineer import FeatureEngineering
 from Model_Training.Model_Trainer import ModelTrainer
 from Model_Validation.Model_Validation import ModelValidator
 
@@ -10,7 +10,7 @@ class pipeline_generator:
         self.data_collector = DataCollector([])
         self.data_processor = DataProcessor(None, [])
         self.data_transform = DataTransform(None, [])
-        self.data_split = DataSplit()
+        self.feature_engineering = FeatureEngineering(None, [])
         self.model_trainer = ModelTrainer(None, [])
         self.model_validator = ModelValidator(None,None, [])
 
@@ -21,11 +21,11 @@ class pipeline_generator:
     def readDataSources(self):
         return self.data_collector.readDataSources()
     
-    def loadprocesses(self, dFrame, Procesos): 
+    def loadCleaning(self, dFrame, Procesos): 
         self.data_processor.load_processes(dFrame, Procesos)
         return
     
-    def processData(self):
+    def cleanData(self):
         return self.data_processor.data_processing()
     
     def loadTransformations(self, dFrame, Transformaciones):
@@ -34,8 +34,11 @@ class pipeline_generator:
     def transformData(self):
         return self.data_transform.data_transform()
     
-    def split_data(self, dFrame, size):
-        return self.data_split.split(dFrame, size)
+    def loadfeatures(self, dFrame, Features):
+        self.feature_engineering.load_features(dFrame, Features)
+
+    def engineeringData(self):
+        return self.feature_engineering.data_engineering()
     
     def createModel(self, name, propierties):
         self.model_trainer.create_model(name, propierties)
@@ -43,7 +46,7 @@ class pipeline_generator:
     def trainModel(self):
         return self.model_trainer.model_Training()
 
-    def loadvalidations(self, testy, pred, Validaciones):
+    def loadValidations(self, testy, pred, Validaciones):
         self.model_validator.load_validations(testy, pred, Validaciones)
         
     def validateModel(self):
