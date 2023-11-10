@@ -33,4 +33,6 @@ class DataCollector:
             array.append(object.read(self, i[0]))
 
         res = pandas.concat(array, ignore_index=True, sort=False)
-        return pandas.DataFrame(res)
+        final = pandas.DataFrame(res)
+        final.drop('Unnamed: 0', inplace = True, axis = 1)
+        return final
