@@ -1,0 +1,5 @@
+pandas
+wheel
+nose2
+numpy
+sklearn
